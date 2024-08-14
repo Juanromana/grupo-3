@@ -8,7 +8,7 @@ class Acomodacion(models.Model):
 class Adicion(models.Model):
     id_adicion = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=20)
-    descripcion = models.CharField(max_length=200)
+    descripcion = models.TextField()
     costo = models.FloatField()
     estado = models.IntegerField()
 
@@ -20,7 +20,7 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=20)
     correo = models.CharField(max_length=200)
     direccion = models.CharField(max_length=50)
-    id_destino = models.ForeignKey('Destino', models.DO_NOTHING, db_column='id_destino')
+    id_destino = models.ForeignKey('Destino', models.PROTECT, db_column='id_destino')
     estado = models.IntegerField()
 
 class Destino(models.Model):
@@ -30,10 +30,10 @@ class Destino(models.Model):
 
 class DetalleReserva(models.Model):
     id_detalle_reserva = models.AutoField(primary_key=True)
-    id_reserva = models.ForeignKey('Reserva', models.DO_NOTHING, db_column='id_reserva')
-    id_paquete_tour = models.ForeignKey('PaqueteTour', models.DO_NOTHING, db_column='id_paquete_tour', blank=True, null=True)
-    id_acomodacion = models.ForeignKey(Acomodacion, models.DO_NOTHING, db_column='id_acomodacion', blank=True, null=True)
-    id_adicion = models.ForeignKey(Adicion, models.DO_NOTHING, db_column='id_adicion', blank=True, null=True)
+    id_reserva = models.ForeignKey('Reserva', models.PROTECT, db_column='id_reserva')
+    id_paquete_tour = models.ForeignKey('PaqueteTour', models.PROTECT, db_column='id_paquete_tour', blank=True, null=True)
+    id_acomodacion = models.ForeignKey(Acomodacion, models.PROTECT, db_column='id_acomodacion', blank=True, null=True)
+    id_adicion = models.ForeignKey(Adicion, models.PROTECT, db_column='id_adicion', blank=True, null=True)
     habitaciones = models.IntegerField()
     adulto = models.IntegerField()
     infante = models.IntegerField()
@@ -45,25 +45,26 @@ class Hospedaje(models.Model):
     direccion = models.CharField(max_length=50)
     correo = models.CharField(max_length=30)
     tipo_hospedaje = models.CharField(max_length=30)
-    descripcion = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    telefono = models.CharField(max_length=50)
     tarifa_base = models.FloatField()
-    id_destino = models.ForeignKey(Destino, models.DO_NOTHING, db_column='id_destino')
+    id_destino = models.ForeignKey(Destino, models.PROTECT, db_column='id_destino')
     estado = models.IntegerField()
-    imagen = models.ImageField(upload_to="relative/path/to/upload", blank=True, null=True)
+    imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
 
 class HospedajeAcomodacion(models.Model):
     id_hospedaje_acomodacion = models.AutoField(primary_key=True)
-    id_acomodacion = models.ForeignKey(Acomodacion, models.DO_NOTHING, db_column='id_acomodacion')
-    id_hospedaje = models.ForeignKey(Hospedaje, models.DO_NOTHING, db_column='id_hospedaje')
+    id_acomodacion = models.ForeignKey(Acomodacion, models.PROTECT, db_column='id_acomodacion')
+    id_hospedaje = models.ForeignKey(Hospedaje, models.PROTECT, db_column='id_hospedaje')
     temporada = models.CharField(max_length=20)
     tarifa_agencia = models.FloatField()
     tarifa = models.FloatField()
-    imagen = models.ImageField(upload_to="relative/path/to/upload", blank=True, null=True)
+    imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
 
 class Paquete(models.Model):
     id_paquete = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
-    descripcion = models.CharField(max_length=500)
+    descripcion = models.TextField()
     vigencia_inicio = models.DateField()
     vigencia_fin = models.DateField()
     noche = models.IntegerField()
@@ -75,8 +76,9 @@ class Paquete(models.Model):
 
 class PaqueteTour(models.Model):
     id_paquete_tour = models.AutoField(primary_key=True)
-    id_paquete = models.ForeignKey(Paquete, models.DO_NOTHING, db_column='id_paquete')
-    id_tour = models.ForeignKey('Tour', models.DO_NOTHING, db_column='id_tour')
+    id_paquete = models.ForeignKey(Paquete, models.PROTECT, db_column='id_paquete')
+    id_tour = models.ForeignKey('Tour', models.PROTECT, db_column='id_tour')
+    id_hospedaje_acomodacion = models.ForeignKey(HospedajeAcomodacion,models.PROTECT,db_column='id_hospedaje_acomodacion')
 
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)
@@ -87,15 +89,15 @@ class Reserva(models.Model):
     total = models.FloatField()
     estado_reserva = models.CharField(max_length=20)
     metodo_pago = models.CharField(max_length=20)
-    id_cliente = models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente')
+    id_cliente = models.ForeignKey('Cliente', models.PROTECT, db_column='id_cliente')
     estado = models.IntegerField()
 
 class Tour(models.Model):
     id_tour = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    descripcion = models.CharField(max_length=200, blank=True, null=True)
-    valor = models.FloatField()
-    duracion = models.IntegerField()
-    estado = models.IntegerField()
-    id_destino = models.ForeignKey(Destino, models.DO_NOTHING, db_column='id_destino')
-    imagen = models.ImageField(upload_to="relative/path/to/upload", blank=True, null=True)
+    descripcion = models.TextField(blank=True, null=True)
+    valor = models.FloatField(blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    id_destino = models.ForeignKey(Destino, models.PROTECT, db_column='id_destino')
+    imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
+    estado = models.IntegerField(default=1)

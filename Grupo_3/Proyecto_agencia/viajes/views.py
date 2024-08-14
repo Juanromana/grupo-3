@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render 
+from django.db import connection
+from django.http import JsonResponse
 from .models import (
     Acomodacion,
     Reserva,
@@ -75,3 +77,14 @@ class DetalleReservaViewSet(viewsets.ModelViewSet):
 
 def index(request):
     return render(request, "index.html")
+
+def buscar_destino (request):
+    query=request.GET.get("q","")
+    if query: #nombre de la variable
+        with connection.cursor() as cursor: #es un metodo para jenerar el jeison y me sirve para retornr el jeison
+            cursor.callproc("con_destino", [query]) 
+            resultados = cursor.fetchall()
+            columns = [col[0] for col in cursor.description]
+            resultado_dict=[dict(zip(columns,row)) for row in resultados]
+        return JsonResponse(resultado_dict, safe=False)
+    return JsonResponse([], safe=False)
