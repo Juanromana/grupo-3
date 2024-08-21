@@ -14,12 +14,11 @@
 //             console.log(Busqueda);
 //        }
 //     });
-
 //  $('#nombredelinput').on('input', function () {      
 //       });
 // })
 $(document).ready(function () {
-    $('#nombredelinput').on('input', function () {
+    $('.nombredelinput').on('input', function () {
         buscarDestino();
     });
     $('#botonbusc').on('click', function (e) {
@@ -39,7 +38,7 @@ $(document).ready(function () {
         }
     });
     function buscarDestino() {
-        let destino = $("#nombredelinput").val().trim();
+        let destino = $(".nombredelinput").val().trim();
         if (destino.length > 0) {
             $.ajax({
                 url: "rumbotravel/destino",
@@ -52,7 +51,7 @@ $(document).ready(function () {
                             data.forEach((element) => {
                                 result.append(`
                                     <ul class= "list-group list_destino">
-                                     <li class="list-group-item">${element.nombre}</li>
+                                     <li class="list-group-item">${element.destino}</li>
                                     </ul>
                                 `);
                             });
@@ -62,10 +61,10 @@ $(document).ready(function () {
                     } else {
                         result.append("<div>Dijite minimo dos caracteres</div>");
                     }
-                }
+                },
             });
         } else {
             $("#resultado").empty(); //limpia los resultados anteriores
         }
     }
-})
+});

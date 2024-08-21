@@ -1,0 +1,184 @@
+/* Estilos generales */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: lavender;
+    color: black;
+}
+
+/* Encabezado */
+header {
+    background-color: #2b7ac9;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-align-last: center;
+}
+
+header nav ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+header nav ul li {
+    margin: 0 10px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-group>.form-control,
+.input-group>.form-select,
+.input-group>.form-floating {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+header nav ul li a,
+header nav ul li button {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+header nav ul li button:hover,
+header nav ul li a:hover {
+    color: #0c0e0f;
+    background-color: #495057;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* Contenido Principal */
+.container {
+    margin-top: 50px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #343a40;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Estilos de la Tarjeta del Itinerario */
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.card-header {
+    color: black;
+    text-align: center;
+}
+
+.imag{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-header h5 button {
+    color: black;
+    font-size: 1.3rem;
+    text-decoration: none;
+}
+.acordion{
+    display: flex;
+    justify-content: left;
+    padding: 10px;
+}
+
+/* Controles de Paginación */
+.pagination .page-item .page-link {
+    color: black;
+    font-size: 1.2rem;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+/* buscar */
+.btn-outline-secondary {
+    --bs-btn-color: #6c757d;
+    --bs-btn-border-color: #6c757d;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6c757d;
+    --bs-btn-hover-border-color: #6c757d;
+    --bs-btn-focus-shadow-rgb: 108, 117, 125;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6c757d;
+    --bs-btn-active-border-color: #6c757d;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #6c757d;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #6c757d;
+    --bs-gradient: none;
+}
+
+.container-md,
+.container{
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+
+    .container-sm,
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .container-md,
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .container-md,
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container-md,
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+
+    .container-md,
+    .container {
+        max-width: 1320px;
+    }
+}

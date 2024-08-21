@@ -82,7 +82,7 @@ def buscar_destino (request):
     query=request.GET.get("q","")
     if query: #nombre de la variable
         with connection.cursor() as cursor: #es un metodo para jenerar el jeison y me sirve para retornr el jeison
-            cursor.callproc("con_destino", [query]) 
+            cursor.callproc("con_destino", [query])
             resultados = cursor.fetchall()
             columns = [col[0] for col in cursor.description]
             resultado_dict=[dict(zip(columns,row)) for row in resultados]
