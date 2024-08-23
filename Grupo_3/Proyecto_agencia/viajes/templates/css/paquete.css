@@ -7,7 +7,7 @@ body {
 
 /* Encabezado */
 header {
-    background-color: #2b7ac9;
+    background-color: #a6c5e4;
     color: white;
 }
 
@@ -77,8 +77,8 @@ p {
 .card {
     border: 1px solid #dee2e6;
     border-radius: 8px;
-    margin-bottom: 15px;
-    background-color: #fff;
+    margin: 5px;
+    box-shadow: 0px 7px 10px 0px rgba(0, 0, 0, 0.199);
 }
 
 .card-header {
@@ -86,10 +86,11 @@ p {
     text-align: center;
 }
 
-.imag{
+.imag {
     width: 100%;
     height: 250px;
     object-fit: cover;
+    border-radius: 5px;
 }
 
 .card-header h5 button {
@@ -97,22 +98,13 @@ p {
     font-size: 1.3rem;
     text-decoration: none;
 }
-.acordion{
+
+p {
+    margin: 5px;
+}
+
+.acordion {
     display: flex;
-    justify-content: left;
-    padding: 10px;
-}
-
-/* Controles de Paginación */
-.pagination .page-item .page-link {
-    color: black;
-    font-size: 1.2rem;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
 }
 
 /* buscar */
@@ -134,7 +126,7 @@ p {
 }
 
 .container-md,
-.container{
+.container {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
     width: 100%;
@@ -144,41 +136,44 @@ p {
     margin-left: auto;
 }
 
-@media (min-width: 576px) {
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 
-    .container-sm,
-    .container {
-        max-width: 540px;
-    }
+
+    /* Estilos de la paginación */
 }
 
-@media (min-width: 768px) {
-
-    .container-md,
-    .container {
-        max-width: 720px;
-    }
+ul {
+    display: flex;
+    list-style: none;
+    padding: 2px;
+    margin: 5px;
 }
 
-@media (min-width: 992px) {
+/* .content {
+    background-color: blue;
+    Estilos del contenido */
+/* } */ */
 
-    .container-md,
-    .container {
-        max-width: 960px;
-    }
+.content h2 {
+    margin-top: 0;
 }
 
-@media (min-width: 1200px) {
-    .container-md,
-    .container {
-        max-width: 1140px;
-    }
+button {
+    margin-left: 10%;
+    border-radius: 5px;
+    border: none;
+    background-color: #6c757d;
+    
 }
 
-@media (min-width: 1400px) {
-
-    .container-md,
-    .container {
-        max-width: 1320px;
-    }
+.butdeta {
+    display: flex;
+    justify-content: end;
+    padding: 7px;
+}
+a{
+    color: white;
 }

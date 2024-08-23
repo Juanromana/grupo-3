@@ -1,22 +1,3 @@
-// $(document).ready(function () {
-//     $('#botonbusc').on('click', function (e) {
-//         let Busqueda = $('.nombredelinput').val().trim(); // Obtiene el elemento input usando jQuery
-//         if (Busqueda === "") { // Valida si el campo está vacío
-//             e.preventDefault(); // Evita que se envíe el formulario
-//             e.stopPropagation(); // Detiene la propagación del evento
-//             Swal.fire({   // Muestra una alerta de error con SweetAlert2
-//                 icon: "error",
-//                 title: "Oops",
-//                 text: "Por favor, agrega un paquete.",
-//             });
-//             return; // Detiene la ejecución del código
-//         } else { // Si el campo no está vacío, puedes continuar con la búsqueda
-//             console.log(Busqueda);
-//        }
-//     });
-//  $('#nombredelinput').on('input', function () {      
-//       });
-// })
 $(document).ready(function () {
     $('.nombredelinput').on('input', function () {
         buscarDestino();
@@ -38,28 +19,34 @@ $(document).ready(function () {
         }
     });
     function buscarDestino() {
-        let destino = $(".nombredelinput").val().trim();
-        if (destino.length > 0) {
-            $.ajax({
-                url: "rumbotravel/destino",
-                data: { q: destino },
-                success: function (data) {
+        let destino = $(".nombredelinput").val().trim(); // los muestra lo que escribimos en el imput
+        if (destino.length > 0) {  //  si el destino esiste o no, cada ves que escriba elimine lo que hay en el div
+            $.ajax({ // disparador parecido al triguer y imediatamente se cumple la funcion 
+                url: "destino",  // donde voy abuscar
+                data: { q: destino }, // donde voy a buscar y q los indica el destino y data viene con la informacion de la consuta
+                success: function (data) { // es la funcion promesa que si la funcion se cumple los mueste, en este caso es el destino
                     let result = $("#resultado");
-                    result.empty();
-                    if (destino.length > 2) {
-                        if (data.length) {
-                            data.forEach((element) => {
-                                result.append(`
+                    result.empty(); // limpie lo que ya esta
+                    if (destino.length > 2) { // tamaño de caracteres
+                        if (data.length) { // trae la informacion de la base de datos, para saber si esiste el datos del
+                            data.forEach((element) => { //ciclo 
+                                result.append(` 
                                     <ul class= "list-group list_destino">
-                                     <li class="list-group-item">${element.destino}</li>
+                                     <li class="list-group-item lis_destino ">${element.destino}</li>
                                     </ul>
-                                `);
+                                `); // appemd agregamos, una lista no ordenada, agregar elementos al div y el element.destino los va a mostra lo que tengamos en el div los muestra eldestino
+                            });
+                            $('.list-group').click(function(){ // funcion clik para destino
+                                let selecciondestino = $(this).text(); // toma la caja de texto
+                                console.log(selecciondestino); // muestra el destino seleccionado en la consola
+                                $(".nombredelinput").val(selecciondestino); // cuando le de clic en el input de la lista de os destinos los muestre en el div
+                                result.empty(); // lipia los resultados
                             });
                         } else {
                             result.append("<div>No contamos con ese destino</div>");
                         }
                     } else {
-                        result.append("<div>Dijite minimo dos caracteres</div>");
+                        result.append("<div>Digite minimo dos caracteres</div>");
                     }
                 },
             });

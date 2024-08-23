@@ -1,3 +1,5 @@
+ # odjetivo de tener el modelo en django: es para trabajarcon datos de manera eficiente y
+# escalada y nos sirbe para la estraccion de la base de datos y almacenar datos 
 from django.db import models
 class Acomodacion(models.Model):
     id_acomodacion = models.AutoField(primary_key=True)
@@ -7,7 +9,7 @@ class Acomodacion(models.Model):
 
 class Adicion(models.Model):
     id_adicion = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=20)
+    nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     costo = models.FloatField()
     estado = models.IntegerField()
