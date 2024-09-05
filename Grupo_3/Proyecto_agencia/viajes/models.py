@@ -6,13 +6,18 @@ class Acomodacion(models.Model):
     nombre = models.CharField(max_length=300)
     descripcion = models.CharField(max_length=300)
     estado = models.IntegerField()
+    def __str__(self):
+        return self.nombre 
 
 class Adicion(models.Model):
     id_adicion = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=20)
     descripcion = models.TextField()
     costo = models.FloatField()
     estado = models.IntegerField()
+
+    def __str__(self):
+        return self.nombre
 
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
@@ -25,10 +30,16 @@ class Cliente(models.Model):
     id_destino = models.ForeignKey('Destino', models.PROTECT, db_column='id_destino')
     estado = models.IntegerField()
 
+    def __str__(self):
+        return self.nombre
+
 class Destino(models.Model):
     id_destino = models.AutoField(primary_key=True)
     destino = models.CharField(max_length=200)
     estado = models.IntegerField()
+
+    def __str__(self):
+        return self.destino
 
 class DetalleReserva(models.Model):
     id_detalle_reserva = models.AutoField(primary_key=True)
@@ -40,6 +51,9 @@ class DetalleReserva(models.Model):
     adulto = models.IntegerField()
     infante = models.IntegerField()
     comentarios = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self): # procedimiento o funcion
+        return f"{self.id_reserva} en {self.id_paquete_tour} en {self.id_acomodacion} en {self.id_adicion} - habitaciones {self.habitaciones}"
 
 class Hospedaje(models.Model):
     id_hospedaje = models.AutoField(primary_key=True)
@@ -54,6 +68,9 @@ class Hospedaje(models.Model):
     estado = models.IntegerField()
     imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
 
+    def __str__(self): # procedimiento o funcion
+        return f"{self.id_destino} - temporada {self.nombre} - tipo_hospedaje {self.tipo_hospedaje}"
+
 class HospedajeAcomodacion(models.Model):
     id_hospedaje_acomodacion = models.AutoField(primary_key=True)
     id_acomodacion = models.ForeignKey(Acomodacion, models.PROTECT, db_column='id_acomodacion')
@@ -62,6 +79,9 @@ class HospedajeAcomodacion(models.Model):
     tarifa_agencia = models.FloatField()
     tarifa = models.FloatField()
     imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
+
+    def __str__(self): # procedimiento o funcion
+        return f"{self.id_acomodacion} - temporada {self.temporada}" # que todo lo que tenga en entero se cambie a tipo strean y muestre la informacion 
 
 class Paquete(models.Model):
     id_paquete = models.AutoField(primary_key=True)
@@ -76,11 +96,17 @@ class Paquete(models.Model):
     disponibilidad = models.CharField(max_length=50)
     estado = models.IntegerField()
 
+    def __str__(self):
+        return self.nombre
+
 class PaqueteTour(models.Model):
     id_paquete_tour = models.AutoField(primary_key=True)
     id_paquete = models.ForeignKey(Paquete, models.PROTECT, db_column='id_paquete')
     id_tour = models.ForeignKey('Tour', models.PROTECT, db_column='id_tour')
-    id_hospedaje_acomodacion = models.ForeignKey(HospedajeAcomodacion,models.PROTECT,db_column='id_hospedaje_acomodacion')
+    id_hospedaje_acomodacion = models.ForeignKey(HospedajeAcomodacion, models.PROTECT,db_column='id_hospedaje_acomodacion')
+
+    def __str__(self):
+        return f"{self.id_paquete} en {self.id_tour} en {self.id_hospedaje_acomodacion}"
 
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)
@@ -94,6 +120,9 @@ class Reserva(models.Model):
     id_cliente = models.ForeignKey('Cliente', models.PROTECT, db_column='id_cliente')
     estado = models.IntegerField()
 
+    def __str__(self): # procedimiento o funcion
+        return f"{self.id_cliente} - fecha {self.fecha}"
+
 class Tour(models.Model):
     id_tour = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
@@ -103,3 +132,6 @@ class Tour(models.Model):
     id_destino = models.ForeignKey(Destino, models.PROTECT, db_column='id_destino')
     imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
     estado = models.IntegerField(default=1)
+
+    def __str__(self): # procedimiento o funcion
+        return f"{self.id_destino} - nombre {self.nombre}"

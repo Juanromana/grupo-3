@@ -2,6 +2,7 @@ $(document).ready(function () {
     $('.nombredelinput').on('input', function () {
         buscarDestino();
     });
+
     $('#botonbusc').on('click', function (e) {
         let Busqueda = $('.nombredelinput')[0];
         let bus = $('.nombredelinput').val();
@@ -15,14 +16,14 @@ $(document).ready(function () {
             });
             return; //detener
         } else {
-            console.log(bus);
+            window.location.href = `consultar_paquete?q=${bus}`;
         }
     });
     function buscarDestino() {
         let destino = $(".nombredelinput").val().trim(); // los muestra lo que escribimos en el imput
         if (destino.length > 0) {  //  si el destino esiste o no, cada ves que escriba elimine lo que hay en el div
             $.ajax({ // disparador parecido al triguer y imediatamente se cumple la funcion 
-                url: "destino",  // donde voy abuscar
+                url: "buscar_destino",  // donde voy abuscar
                 data: { q: destino }, // donde voy a buscar y q los indica el destino y data viene con la informacion de la consuta
                 success: function (data) { // es la funcion promesa que si la funcion se cumple los mueste, en este caso es el destino
                     let result = $("#resultado");
@@ -32,14 +33,14 @@ $(document).ready(function () {
                             data.forEach((element) => { //ciclo 
                                 result.append(` 
                                     <ul class= "list-group list_destino">
-                                     <li class="list-group-item lis_destino ">${element.destino}</li>
+                                    <li class="list-group-item lis_destino ">${element.destino}</li>
                                     </ul>
                                 `); // appemd agregamos, una lista no ordenada, agregar elementos al div y el element.destino los va a mostra lo que tengamos en el div los muestra eldestino
                             });
-                            $('.list-group').click(function(){ // funcion clik para destino
+                            $('.lis_destino').click(function () { // funcion clik para destino
                                 let selecciondestino = $(this).text(); // toma la caja de texto
                                 console.log(selecciondestino); // muestra el destino seleccionado en la consola
-                                $(".nombredelinput").val(selecciondestino); // cuando le de clic en el input de la lista de os destinos los muestre en el div
+                                $(".nombredelinput").val(selecciondestino).trim(); // cuando le de clic en el input de la lista de os destinos los muestre en el div
                                 result.empty(); // lipia los resultados
                             });
                         } else {

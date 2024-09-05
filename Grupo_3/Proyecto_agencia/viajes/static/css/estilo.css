@@ -1,3 +1,13 @@
 .btnbuscar {
     background-color: yellowgreen;
 }
+
+.nombredelinput {
+    text-align: left
+}
+#resultado{
+    text-align: left;
+}
+.lis_destino{
+    white-space:normal;
+}

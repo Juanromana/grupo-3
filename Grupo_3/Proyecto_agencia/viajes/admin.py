@@ -13,9 +13,17 @@ from .models import (
     DetalleReserva,
 )
 
+class HospedajeInline (admin.TabularInline):
+    model = HospedajeAcomodacion
+    extra = 1   #aparece un espacio para seleccionar
+
+class HospedajeAdmin (admin.ModelAdmin):
+    inlines = [HospedajeInline]
+
+
 admin.site.register(Acomodacion)
-admin.site.register(Hospedaje)
-admin.site.register(HospedajeAcomodacion)
+admin.site.register(Hospedaje, HospedajeAdmin)
+# admin.site.register(HospedajeAcomodacion)
 admin.site.register(Reserva)
 admin.site.register(Cliente)
 admin.site.register(Destino)
@@ -24,3 +32,4 @@ admin.site.register(Adicion)
 admin.site.register(PaqueteTour)
 admin.site.register(Tour)
 admin.site.register(Paquete)
+

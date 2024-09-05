@@ -19,5 +19,7 @@ routers.register(r"hospedaje_Acomodacion", views.HospedajeAcomodacionViewSet)
 urlpatterns = [
     path("rumbotravel/", include(routers.urls)),
     path("", views.index, name="index"),
-    path("destino", views.buscar_destino, name="buscar_destino"),
+    path("buscar_destino", views.buscar_destino, name="buscar_destino"),
+    path("consultar_paquete", views.consultar_paquete, name="consultar_paquete"),
+    path("detalle_paquete", views.detalle_paquete, name="detalle_paquete"),
 ]
