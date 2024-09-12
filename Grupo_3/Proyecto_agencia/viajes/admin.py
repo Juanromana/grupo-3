@@ -13,17 +13,22 @@ from .models import (
     DetalleReserva,
 )
 
-class HospedajeInline (admin.TabularInline):
+
+class BaseAdmin(admin.ModelAdmin):
+    class Media:
+        js = ("js/jquery-3.7.1.min.js", "js/paquete.js")
+
+class HospedajeAcomodacionInline(admin.TabularInline):
     model = HospedajeAcomodacion
-    extra = 1   #aparece un espacio para seleccionar
+    extra = 1
 
-class HospedajeAdmin (admin.ModelAdmin):
-    inlines = [HospedajeInline]
+class HospedajeAdmin(BaseAdmin):
+    inlines = [HospedajeAcomodacionInline]
 
 
+# Registrar los modelos en el administrador de Django
 admin.site.register(Acomodacion)
 admin.site.register(Hospedaje, HospedajeAdmin)
-# admin.site.register(HospedajeAcomodacion)
 admin.site.register(Reserva)
 admin.site.register(Cliente)
 admin.site.register(Destino)
@@ -32,4 +37,4 @@ admin.site.register(Adicion)
 admin.site.register(PaqueteTour)
 admin.site.register(Tour)
 admin.site.register(Paquete)
-
+# admin.site.register(HospedajeAcomodacion)

@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* estilos generales */
 body {
     font-family: 'Times New Roman', Times, serif;
     background-color: lavender;
@@ -14,7 +14,7 @@ header {
 header h1 {
     font-size: 2.5rem;
     margin: 0;
-    text-align-last: center;
+    text-align: center;
 }
 
 /* Contenido Principal */
@@ -28,56 +28,26 @@ h2 {
 }
 
 p {
-    font-size: 1.0rem;
-    line-height: 1.0;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin: 5px;
 }
 
 /* Estilos de la Tarjeta del Itinerario */
-.pap{
-    display: flex;
-    justify-content: center;
-}
-
 .card {
     border: 1px solid #dee2e6;
     border-radius: 8px;
     margin: 5px;
-    box-shadow: 0px 7px 10px 0px rgba(0, 0, 0, 0.199);
+    box-shadow: 0px 7px 10px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
 }
 
-.card-header {
-    color: black;
-    text-align: center;
-}
-
-.imag {
+.card__image {
     width: 100%;
-    height: 250px;
+    height: 200px;
     object-fit: cover;
     border-radius: 5px;
-}
-
-.card-header h5 button {
-    color: black;
-    font-size: 1.3rem;
-    text-decoration: none;
-}
-
-p {
-    margin: 5px;
-    display: flow-root;
-}
-
-.acordion {
-    display: flex;
-}
-
-button {
-    margin-left: 10%;
-    border-radius: 5px;
-    border: none;
-    background-color: #6c757d;
-
 }
 
 .butdeta {
@@ -86,7 +56,28 @@ button {
     padding: 7px;
 }
 
-/* paginacion c*/
+/* Ajustar tarjetas en un grid */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;/* Opcional: centra las tarjetas en el contenedor */
+}
+
+.col-md-4 {
+    flex: 0 0 30%; /* Establece el tamaño de la columna (30% de ancho) */
+    max-width: 30%;
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+/* Paginación */
 .paginationes {
     display: flex;
     justify-content: center;
@@ -96,7 +87,7 @@ button {
 .pagination {
     display: inline-flex;
     padding: 10px;
-    background-color: #f8f9fa; /* Fondo claro */
+    background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -106,15 +97,15 @@ button {
     gap: 10px;
 }
 
-.pagination a, 
-.pagination .current {
+.pagination a,
+.pagination .pagination__current {
     display: inline-block;
     padding: 8px 12px;
-    background-color: #ffffff; /* Fondo blanco */
+    background-color: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     text-decoration: none;
-    color: #007bff; /* Color de texto */
+    color: #007bff;
     font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -124,9 +115,9 @@ button {
     color: #ffffff;
 }
 
-.pagination .current {
+.pagination .pagination__current {
     background-color: #007bff;
     color: #ffffff;
     border-color: #007bff;
-    pointer-events: none; /* Desactiva interacción con el texto de página actual */
+    pointer-events: none;
 }

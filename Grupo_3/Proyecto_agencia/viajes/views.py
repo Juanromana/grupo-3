@@ -103,7 +103,7 @@ def consultar_paquete(request):
                 resultados = cursor.fetchall()
                 columns = [col[0] for col in cursor.description]
                 resultado_dict = [dict(zip(columns, row)) for row in resultados]
-                paginator = Paginator(resultado_dict, 4)  # Paginator initialized here
+                paginator = Paginator(resultado_dict, 3)  # Paginator initialized here
                 page = request.GET.get('page', 1)  # Get the page number from the request
                 try:
                     paquetes = paginator.page(page)
@@ -155,3 +155,19 @@ def detalle_paquete (request):
             return JsonResponse({"error": str(e)}, status=500)
     else:
         return render(request, "html/detallepaquete.html", {"resultados": []})
+
+def odtenerAcomodacion(request):
+    query = request.GET.get("q", "")
+    if query:
+        try:
+            with connection.cursor() as cursor:
+                cursor.callproc("buscar_hospedaje_acomodacion", [query])
+                resultados = cursor.fetchall()
+                columns = [col[0] for col in cursor.description]
+                resultado_dict = [dict(zip(columns, row)) for row in resultados]
+                return JsonResponse(resultado_dict, safe=False)
+                
+
+        except Exception as e:
+            print(f"Error al ejecutar el procedimiento almacenado: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
