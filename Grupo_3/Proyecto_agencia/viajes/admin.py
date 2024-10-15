@@ -21,10 +21,8 @@ class BaseAdmin(admin.ModelAdmin):
 class HospedajeAcomodacionInline(admin.TabularInline):
     model = HospedajeAcomodacion
     extra = 1
-
 class HospedajeAdmin(BaseAdmin):
     inlines = [HospedajeAcomodacionInline]
-
 
 # Registrar los modelos en el administrador de Django
 admin.site.register(Acomodacion)

@@ -60,11 +60,13 @@ p {
 .row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;/* Opcional: centra las tarjetas en el contenedor */
+    justify-content: center;
+    /* Opcional: centra las tarjetas en el contenedor */
 }
 
 .col-md-4 {
-    flex: 0 0 30%; /* Establece el tamaño de la columna (30% de ancho) */
+    flex: 0 0 30%;
+    /* Establece el tamaño de la columna (30% de ancho) */
     max-width: 30%;
     padding: 15px;
 }

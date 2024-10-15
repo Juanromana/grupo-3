@@ -5,7 +5,9 @@ class Acomodacion(models.Model):
     id_acomodacion = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=300)
     descripcion = models.CharField(max_length=300)
+    capacidad = models.IntegerField()
     estado = models.IntegerField()
+    
     def __str__(self):
         return self.nombre 
 
@@ -76,6 +78,8 @@ class HospedajeAcomodacion(models.Model):
     id_acomodacion = models.ForeignKey(Acomodacion, models.PROTECT, db_column='id_acomodacion')
     id_hospedaje = models.ForeignKey(Hospedaje, models.PROTECT, db_column='id_hospedaje')
     temporada = models.CharField(max_length=20)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
     tarifa_agencia = models.FloatField()
     tarifa = models.FloatField()
     imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
