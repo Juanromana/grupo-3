@@ -7,7 +7,6 @@ from .models import(
     Hospedaje,
     HospedajeAcomodacion,
     Paquete,
-    Tour,
     PaqueteTour,
     Adicion,
     DetalleReserva,
@@ -46,11 +45,6 @@ class HospedajeAcomodacionSerializer(serializers.ModelSerializer):
 class PaqueteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paquete
-        fields = "__all__"
-
-class TourSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tour
         fields = "__all__"
 
 class PaqueteTourSerializer(serializers.ModelSerializer):

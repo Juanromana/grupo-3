@@ -71,7 +71,7 @@ class Hospedaje(models.Model):
     imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
 
     def __str__(self): # procedimiento o funcion
-        return f"{self.id_destino} - temporada {self.nombre} - tipo_hospedaje {self.tipo_hospedaje}"
+        return f"{self.nombre} - {self.id_destino} - temporada {self.nombre} - tipo_hospedaje {self.tipo_hospedaje}"
 
 class HospedajeAcomodacion(models.Model):
     id_hospedaje_acomodacion = models.AutoField(primary_key=True)
@@ -98,19 +98,19 @@ class Paquete(models.Model):
     no_incluye = models.CharField(max_length=200)
     costo = models.FloatField()
     disponibilidad = models.CharField(max_length=50)
+    imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
     estado = models.IntegerField()
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} - {self.imagen}"
 
 class PaqueteTour(models.Model):
     id_paquete_tour = models.AutoField(primary_key=True)
     id_paquete = models.ForeignKey(Paquete, models.PROTECT, db_column='id_paquete')
-    id_tour = models.ForeignKey('Tour', models.PROTECT, db_column='id_tour')
     id_hospedaje_acomodacion = models.ForeignKey(HospedajeAcomodacion, models.PROTECT,db_column='id_hospedaje_acomodacion')
 
     def __str__(self):
-        return f"{self.id_paquete} en {self.id_tour} en {self.id_hospedaje_acomodacion}"
+        return f"{self.id_paquete} en {self.id_hospedaje_acomodacion}"
 
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)
@@ -126,16 +126,3 @@ class Reserva(models.Model):
 
     def __str__(self): # procedimiento o funcion
         return f"{self.id_cliente} - fecha {self.fecha}"
-
-class Tour(models.Model):
-    id_tour = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50)
-    descripcion = models.TextField(blank=True, null=True)
-    valor = models.FloatField(blank=True, null=True)
-    duracion = models.IntegerField(blank=True, null=True)
-    id_destino = models.ForeignKey(Destino, models.PROTECT, db_column='id_destino')
-    imagen = models.ImageField(upload_to="assets/img", blank=True, null=True)
-    estado = models.IntegerField(default=1)
-
-    def __str__(self): # procedimiento o funcion
-        return f"{self.id_destino} - nombre {self.nombre}"

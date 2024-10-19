@@ -16,26 +16,73 @@ $(document).ready(function () { // lea el documento del html
             let tarifa_agencia = $(this);
             let id = tarifa_agencia.attr('id').match(/\d+/); //attr = traer todo lo que tiene y lo ubica match= coje la parte numerica de la informacion y para determinar el id
             let tarifa_hospedaje = $("#id_hospedajeacomodacion_set-" + id + "-tarifa");
-
             let tarifa = tarifa_agencia.val();
             tarifa_hospedaje.val((tarifa * 1.2).toFixed(0));
             console.log("tarifa_agencia", tarifa_agencia.val());
             console.log("tarifa_hospedaje", tarifa_hospedaje.val());
         }
     );
-
-    // calculo
+    // 1  id="id_paquetetour_set-0-Hospedaje"
+    // 2  id="id_paquetetour_set-0-id_hospedaje_acomodacion"
+    // 3  id_paquetetour_set-0-Tarifa
+    $(document).on("change",
+        "select[id^='id_paquetetour_set-'][id$='-Hospedaje']",
+        function () {
+            let hospedajeacomodacion = $(this).val();
+            console.log(hospedajeacomodacion);
+            let id = $(this).attr('id').match(/\d+/);
+            let tarifahospedaje = $("#id_paquetetour_set-" + id + "-id_hospedaje_acomodacion");
+            let tarifabase = $("#id_paquetetour_set-" + id + "-Tarifa");
+            if (hospedajeacomodacion) {
+                $.ajax({
+                    url: "/hospacomodacion",
+                    data: {
+                        q: hospedajeacomodacion,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        tarifabase.empty();
+                        const opciones = data.map(
+                            (valor) =>
+                                `<option value="${valor.id_hospedaje_acomodacion}">
+                                ${valor.id_acomodacion__nombre} - Temporada: ${valor.temporada} del ${valor.fecha_inicio} al ${valor.fecha_fin}
+                            </option>`
+                        );
+                        tarifahospedaje.val(data[0].id_acomodacion__nombre);
+                        data.forEach((element) => { //ciclo 
+                            tarifabase.append(` 
+                                 <ul class="list-group list_acomodaciones">
+                                 <li class="list-group-item listaDes">${element.nombre}</li>
+                                 </ul>
+                                 `); // appemd agregamos, una lista no ordenada, agregar elementos al div y el element.destino los va a mostra lo que tengamos en el div los muestra eldestino
+                        });
+                        // Actualizamos el contenido en un solo paso para evitar múltiples manipulaciones del DOM
+                        tarifahospedaje
+                            .empty()
+                            .append("<option>Seleccione una acomodación</option>")
+                            .append(opciones);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                })
+            }
+        }
+    );
 
     let TotalNinos = 0;
     let TotalInfantes = 0;
-    let TarifaNumero = parseInt(document.getElementById('Tarifa').innerHTML);
+    let TotalAdultos = 0;
+    let TarifaNumero = parseInt($('#Tarifade').text().replace("Tarifade: ", "").trim());
 
     $('#agregarcen').on('click', function () {
         let cantNinos = parseInt($("#numninos").val());
         let cantInfantes = parseInt($("#numinfantes").val());
         let cantHabitaciones = parseInt($("#numsencilla").val());
+        let cantAdultos = parseInt($("#numadultos").val());
 
-        if (cantNinos > 2 || cantInfantes > 2 || (cantNinos + cantInfantes) > 2) {
+        if (cantNinos > 2 || cantInfantes > 2 || (cantNinos + cantInfantes + cantAdultos) > 4) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -48,34 +95,47 @@ $(document).ready(function () { // lea el documento del html
                 text: "El número de habitaciones debe estar entre 1 y 2.",
             });
         } else {
+            let tarifaTotalPorHabitacion = TarifaNumero * cantHabitaciones;
+
             TotalInfantes = (TarifaNumero * 0.10) * cantInfantes;
             TotalNinos = (TarifaNumero * 0.75) * cantNinos;
-            console.log("Sencilla - Habitaciones: " + cantHabitaciones + ", Niños: " + cantNinos + ", Infantes: " + cantInfantes);
+            TotalAdultos = TarifaNumero * cantAdultos;
+
+            let valorTotal = tarifaTotalPorHabitacion + TotalInfantes + TotalNinos + TotalAdultos;
+
+            document.getElementById('ValorAPagar').innerHTML = "Valor A Pagar: $" + valorTotal.toFixed(2);
         }
     });
 
-    //  habitación doble
+    // habitacion doble
     $('#agregardo').on('click', function () {
         let cantNinos = parseInt($("#numninosdoble").val());
         let cantInfantes = parseInt($("#numinfantesdoble").val());
         let cantHabitaciones = parseInt($("#numhabitacionesdoble").val());
+        let cantAdultos = parseInt($("#numadultosdoble").val());
 
-        if (cantNinos > 4 || cantInfantes > 4 || (cantNinos + cantInfantes) > 4) {
+        if (cantNinos > 4 || cantInfantes > 4 || (cantNinos + cantInfantes + cantAdultos) > 6) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Excediendo el límite de ocupantes en la habitación.",
             });
-        } else if (cantHabitaciones < 3 || cantHabitaciones > 4) {
+        } else if (cantHabitaciones < 1 || cantHabitaciones > 4) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "El número de habitaciones debe estar entre 3 y 4.",
+                text: "El número de habitaciones debe estar entre 1 y 4.",
             });
         } else {
+            let tarifaTotalPorHabitacion = TarifaNumero * cantHabitaciones;
+
             TotalInfantes = (TarifaNumero * 0.10) * cantInfantes;
-            TotalNinos = (TarifaNumero * 0.10) * cantNinos;
-            console.log("Doble - Habitaciones: " + cantHabitaciones + ", Niños: " + cantNinos + ", Infantes: " + cantInfantes);
+            TotalNinos = (TarifaNumero * 0.75) * cantNinos;
+            TotalAdultos = TarifaNumero * cantAdultos;
+
+            let valorTotal = tarifaTotalPorHabitacion + TotalInfantes + TotalNinos + TotalAdultos;
+
+            document.getElementById('ValorAPagar').innerHTML = "Valor A Pagar: $" + valorTotal.toFixed(2);
         }
     });
 
@@ -84,23 +144,48 @@ $(document).ready(function () { // lea el documento del html
         let cantNinos = parseInt($("#numninostriple").val());
         let cantInfantes = parseInt($("#numinfantestriple").val());
         let cantHabitaciones = parseInt($("#numhabitacionestriple").val());
+        let cantAdultos = parseInt($("#numadultostri").val());
 
-        if (cantNinos > 6 || cantInfantes > 6 || (cantNinos + cantInfantes) > 6) {
+        if (cantNinos > 6 || cantInfantes > 6 || (cantNinos + cantInfantes + cantAdultos) > 9) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Excediendo el límite de ocupantes en la habitación.",
             });
-        } else if (cantHabitaciones < 5 || cantHabitaciones > 6) {
+        } else if (cantHabitaciones < 1 || cantHabitaciones > 6) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "El número de habitaciones debe estar entre 5 y 6.",
+                text: "El número de habitaciones debe estar entre 1 y 6.",
             });
         } else {
+            let tarifaTotalPorHabitacion = TarifaNumero * cantHabitaciones;
+
             TotalInfantes = (TarifaNumero * 0.10) * cantInfantes;
-            TotalNinos = (TarifaNumero * 0.10) * cantNinos;
-            console.log("Triple - Habitaciones: " + cantHabitaciones + ", Niños: " + cantNinos + ", Infantes: " + cantInfantes);
+            TotalNinos = (TarifaNumero * 0.75) * cantNinos;
+            TotalAdultos = TarifaNumero * cantAdultos;
+
+            let valorTotal = tarifaTotalPorHabitacion + TotalInfantes + TotalNinos + TotalAdultos;
+
+            document.getElementById('ValorAPagar').innerHTML = "Valor A Pagar: $" + valorTotal.toFixed(2);
         }
     });
+
+    $('#btnguardar').on('click', function () {
+        let form = document.getElementById('formReserva');
+        if (form && form.checkValidity()) {
+            alert('Reserva guardada');
+            let modal = document.getElementById('infoModal');
+
+            if (modal) {
+                let modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+        } else {
+            alert('Por favor, complete todos los campos.');
+        }
+    });
+
 });

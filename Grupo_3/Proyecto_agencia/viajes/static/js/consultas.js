@@ -3,6 +3,14 @@ $(document).ready(function () {
         buscarDestino();
     });
 
+    $(".lis_destino").on("click", function (e) {
+        e.preventDefault();
+        if ($(this).data('valid')) {
+            let destino = $(".ocult");
+            destino.toggle();
+        }
+    });
+
     $('#botonbusc').on('click', function (e) {
         let Busqueda = $('.nombredelinput')[0];
         let bus = $('.nombredelinput').val();
@@ -40,7 +48,7 @@ $(document).ready(function () {
                             $('.lis_destino').click(function () { // funcion clik para destino
                                 let selecciondestino = $(this).text(); // toma la caja de texto
                                 console.log(selecciondestino); // muestra el destino seleccionado en la consola
-                                $(".nombredelinput").val(selecciondestino).trim(); // cuando le de clic en el input de la lista de os destinos los muestre en el div
+                                $(".nombredelinput").val(selecciondestino); // cuando le de clic en el input de la lista de os destinos los muestre en el div
                                 result.empty(); // lipia los resultados
                             });
                         } else {

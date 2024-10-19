@@ -10,7 +10,6 @@ from .models import (
     Hospedaje,
     HospedajeAcomodacion,
     Paquete,
-    Tour,
     PaqueteTour,
     Adicion,
     DetalleReserva,
@@ -24,7 +23,6 @@ from .serializers import (
     HospedajeAcomodacionSerializer,
     PaqueteSerializer,
     AdicionSerializer,
-    TourSerializer,
     PaqueteTourSerializer,
     DetalleReservaSerializer,
     ReservaSerializer,
@@ -59,10 +57,6 @@ class PaqueteViewSet(viewsets.ModelViewSet):
 class HospedajeViewSet(viewsets.ModelViewSet):
     queryset = Hospedaje.objects.all()
     serializer_class = HospedajeSerializer
-
-class TourViewSet(viewsets.ModelViewSet):
-    queryset = Tour.objects.all()
-    serializer_class = TourSerializer
 
 class PaqueteTourViewSet(viewsets.ModelViewSet):
     queryset = PaqueteTour.objects.all()
@@ -156,18 +150,24 @@ def detalle_paquete (request):
     else:
         return render(request, "html/detallepaquete.html", {"resultados": []})
 
-def odtenerAcomodacion(request):
-    query = request.GET.get("q", "")
-    if query:
-        try:
-            with connection.cursor() as cursor:
-                cursor.callproc("buscar_hospedaje_acomodacion", [query])
-                resultados = cursor.fetchall()
-                columns = [col[0] for col in cursor.description]
-                resultado_dict = [dict(zip(columns, row)) for row in resultados]
-                return JsonResponse(resultado_dict, safe=False)
+# def obtenerAcomodacion(request):
+#     query = request.GET.get("q", "")
+#     if query:
+#         try:
                 
 
-        except Exception as e:
-            print(f"Error al ejecutar el procedimiento almacenado: {e}")
-            return JsonResponse({"error": str(e)}, status=500)
+#         except Exception as e:
+#             print(f"Error al ejecutar el procedimiento almacenado: {e}")
+#             return JsonResponse({"error": str(e)}, status=500)
+
+def hospacomodacion (request):
+    query = request.GET.get("q")
+    try:
+        acomodaciones = HospedajeAcomodacion.objects.filter(
+            id_hospedaje=query
+        ).values("id_hospedaje_acomodacion", "tarifa", "id_acomodacion__nombre")
+        return JsonResponse(list(acomodaciones), safe=False)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Log del error para depuración
+        return JsonResponse({"error": "Error interno del servidor"}, status=500)
+        

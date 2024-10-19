@@ -11,7 +11,6 @@ routers.register(r"cliente", views.ClienteViewSet)
 routers.register(r"paquete", views.PaqueteViewSet)
 routers.register(r"paquete_tur", views.PaqueteTourViewSet)
 routers.register(r"destino", views.DestinoViewSet)
-routers.register(r"tour", views.TourViewSet)
 routers.register(r"adicion", views.AdicionViewSet)
 routers.register(r"hospedaje", views.HospedajeViewSet)
 routers.register(r"hospedaje_Acomodacion", views.HospedajeAcomodacionViewSet)
@@ -22,5 +21,6 @@ urlpatterns = [
     path("buscar_destino", views.buscar_destino, name="buscar_destino"),
     path("consultar_paquete", views.consultar_paquete, name="consultar_paquete"),
     path("detalle_paquete", views.detalle_paquete, name="detalle_paquete"),
-    path("odtenerAcomodacion", views.odtenerAcomodacion, name="odtenerAcomodacion"),
+    # path("obtenerAcomodacion", views.obtenerAcomodacion, name="obtenerAcomodacion"),
+    path("hospacomodacion", views.hospacomodacion, name="hospacomodacion"),
 ]
