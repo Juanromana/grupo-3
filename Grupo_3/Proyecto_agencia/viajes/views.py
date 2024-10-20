@@ -154,8 +154,6 @@ def detalle_paquete (request):
 #     query = request.GET.get("q", "")
 #     if query:
 #         try:
-                
-
 #         except Exception as e:
 #             print(f"Error al ejecutar el procedimiento almacenado: {e}")
 #             return JsonResponse({"error": str(e)}, status=500)
