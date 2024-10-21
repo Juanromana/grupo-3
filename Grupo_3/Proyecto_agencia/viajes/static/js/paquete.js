@@ -49,7 +49,7 @@ $(document).ready(function () { // lea el documento del html
     $(document).on("change", "select[id^='id_paquetetour_set-'][id$= '-id_hospedaje_acomodacion']", function () {
         let hospeacomo = $(this).val();
         let id = $(this).attr("id").match(/\d+/); //attr:para buscar match: para buscar los id
-        let tarifahospe = $("#id_paquetetour_set-" + id + "-tarifa"
+        let tarifahospe = $("#id_paquetetour_set-" + id + "-Tarifa"
         );
 
         if (hospeacomo) {

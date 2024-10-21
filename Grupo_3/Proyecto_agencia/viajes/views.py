@@ -160,8 +160,7 @@ def obtenerhospAcomodacion(request):
             return JsonResponse(list(acomodaciones), safe=False)
         except Exception as e:
             print(f"Error al ejecutar el procedimiento almacenado: {e}")
-            return JsonResponse({"error": str(e)}, status=500)
-            
+            return JsonResponse({"error ": str(e)}, status=500)
 
 def hospacomodacion (request):
     query = request.GET.get("q")
