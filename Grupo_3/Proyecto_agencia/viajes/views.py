@@ -150,13 +150,18 @@ def detalle_paquete (request):
     else:
         return render(request, "html/detallepaquete.html", {"resultados": []})
 
-# def obtenerAcomodacion(request):
-#     query = request.GET.get("q", "")
-#     if query:
-#         try:
-#         except Exception as e:
-#             print(f"Error al ejecutar el procedimiento almacenado: {e}")
-#             return JsonResponse({"error": str(e)}, status=500)
+def obtenerhospAcomodacion(request):
+    query = request.GET.get("q", "")
+    if query:
+        try:
+            acomodaciones = HospedajeAcomodacion.objects.filter(
+            id_hospedaje_acomodacion=query
+        ).values("id_acomodacion", "tarifa")
+            return JsonResponse(list(acomodaciones), safe=False)
+        except Exception as e:
+            print(f"Error al ejecutar el procedimiento almacenado: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
+            
 
 def hospacomodacion (request):
     query = request.GET.get("q")

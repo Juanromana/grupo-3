@@ -1,15 +1,4 @@
 $(document).ready(function () { // lea el documento del html
-    // $(document).ready(function () {
-    //     $(document).on("input", "input[id^='id_hospedajeacomodacion_set-'][id$='-tarifa_agencia']", //para saber la posicion en el input
-    //         function () {
-    //             let tarifa_agencia = $(this);
-    //             let id = tarifa_agencia.attr("id").match(/\d+/); //attr busca lo que le indiquemos en este caso id, match me da el número
-    //             let tarifa_hospedaje = $("#id_hospedajeacomodacion_set-" + id + "-tarifa");
-    //             let tarifa = tarifa_agencia.val();
-    //             tarifa_hospedaje.val((tarifa * 1.2).toFixed(1))//calcula la tarifa con el 20% de ganancia
-    //         }
-    //     );
-    // });
 
     $(document).on("input", "input[id^='id_hospedajeacomodacion_set-'][id$='-tarifa_agencia']",
         function () {
@@ -22,55 +11,62 @@ $(document).ready(function () { // lea el documento del html
             console.log("tarifa_hospedaje", tarifa_hospedaje.val());
         }
     );
+
+
     // 1  id="id_paquetetour_set-0-Hospedaje"
     // 2  id="id_paquetetour_set-0-id_hospedaje_acomodacion"
     // 3  id_paquetetour_set-0-Tarifa
-    $(document).on("change",
-        "select[id^='id_paquetetour_set-'][id$='-Hospedaje']",
-        function () {
-            let hospedajeacomodacion = $(this).val();
-            console.log(hospedajeacomodacion);
-            let id = $(this).attr('id').match(/\d+/);
-            let tarifahospedaje = $("#id_paquetetour_set-" + id + "-id_hospedaje_acomodacion");
-            let tarifabase = $("#id_paquetetour_set-" + id + "-Tarifa");
-            if (hospedajeacomodacion) {
-                $.ajax({
-                    url: "/hospacomodacion",
-                    data: {
-                        q: hospedajeacomodacion,
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        tarifabase.empty();
-                        const opciones = data.map(
-                            (valor) =>
-                                `<option value="${valor.id_hospedaje_acomodacion}">
-                                ${valor.id_acomodacion__nombre} - Temporada: ${valor.temporada} del ${valor.fecha_inicio} al ${valor.fecha_fin}
+    $(document).on("change", "select[id^='id_paquetetour_set-'][id$='-Hospedaje']", function () {
+        let hospedajeacomodacion = $(this).val();
+        let id = $(this).attr('id').match(/\d+/);
+        let tarifahospedaje = $("#id_paquetetour_set-" + id + "-id_hospedaje_acomodacion");
+        let tarifabase = $("#id_paquetetour_set-" + id + "-Tarifa");
+        if (hospedajeacomodacion) {
+            $.ajax({
+                url: "/hospacomodacion",
+                data: {
+                    q: hospedajeacomodacion,
+                },
+                dataType: "json",
+                success: function (data) {
+                    tarifabase.empty();
+                    const opciones = data.map(
+                        (valor) =>
+                            `<option value="${valor.id_hospedaje_acomodacion}">
+                                ${valor.id_acomodacion__nombre}
                             </option>`
-                        );
-                        tarifahospedaje.val(data[0].id_acomodacion__nombre);
-                        data.forEach((element) => { //ciclo 
-                            tarifabase.append(` 
-                                 <ul class="list-group list_acomodaciones">
-                                 <li class="list-group-item listaDes">${element.nombre}</li>
-                                 </ul>
-                                 `); // appemd agregamos, una lista no ordenada, agregar elementos al div y el element.destino los va a mostra lo que tengamos en el div los muestra eldestino
-                        });
-                        // Actualizamos el contenido en un solo paso para evitar múltiples manipulaciones del DOM
-                        tarifahospedaje
-                            .empty()
-                            .append("<option>Seleccione una acomodación</option>")
-                            .append(opciones);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error:", error);
-                    },
-                })
-            }
+                    );
+                    // Actualizamos el contenido en un solo paso para evitar múltiples manipulaciones del DOM
+                    tarifahospedaje
+                        .empty()
+                        .append("<option>Seleccione una acomodación</option>")
+                        .append(opciones);
+                },
+            });
         }
-    );
+    });
+    // tarifa
+    $(document).on("change", "select[id^='id_paquetetour_set-'][id$= '-id_hospedaje_acomodacion']", function () {
+        let hospeacomo = $(this).val();
+        let id = $(this).attr("id").match(/\d+/); //attr:para buscar match: para buscar los id
+        let tarifahospe = $("#id_paquetetour_set-" + id + "-tarifa"
+        );
 
+        if (hospeacomo) {
+            $.ajax({
+                url: "/obtenerhospAcomodacion",
+                data: { q: hospeacomo },
+                success: function (data) {
+                    tarifahospe.val(data[0].tarifa);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en calculo:", error);
+                }
+            });
+        }
+    });
+
+    // calculo
     let TotalNinos = 0;
     let TotalInfantes = 0;
     let TotalAdultos = 0;

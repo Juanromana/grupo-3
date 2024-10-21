@@ -21,6 +21,6 @@ urlpatterns = [
     path("buscar_destino", views.buscar_destino, name="buscar_destino"),
     path("consultar_paquete", views.consultar_paquete, name="consultar_paquete"),
     path("detalle_paquete", views.detalle_paquete, name="detalle_paquete"),
-    # path("obtenerAcomodacion", views.obtenerAcomodacion, name="obtenerAcomodacion"),
+    path("obtenerhospAcomodacion", views.obtenerhospAcomodacion, name="obtenerhospAcomodacion"),
     path("hospacomodacion", views.hospacomodacion, name="hospacomodacion"),
 ]
